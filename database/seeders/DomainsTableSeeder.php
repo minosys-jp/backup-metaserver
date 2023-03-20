@@ -18,6 +18,7 @@ class DomainsTableSeeder extends Seeder
         //
         Domain::create([
             'id' => 1,
+            'tenant_id' => 1,
             'code' => 'KAMISHIRANE-HOSPITAL',
             'name' => '上白根病院',
         ]);

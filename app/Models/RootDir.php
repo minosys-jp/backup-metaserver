@@ -17,7 +17,7 @@ class RootDir extends Model
         return $this->belongsTo(Hostname::class);
     }
 
-    public function file_properties() {
-        return $this->hasMany(FileProperty::class);
+    public function nodes() {
+        return $this->hasMany(Node::class);
     }
 }

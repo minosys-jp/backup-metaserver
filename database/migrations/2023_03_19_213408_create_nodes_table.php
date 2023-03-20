@@ -13,12 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('root_dirs', function (Blueprint $table) {
+        Schema::create('nodes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('hostname_id')->index();
-            $table->string('name', 1024)->index();
-            $table->text('description', 1024)->nullable();
+            $table->unsignedBigInteger('root_dir_id')->index();
+            $table->unsignedBigInteger('parent_id')->nullable(true)->index();
+            $table->tinyInteger('flg_dir')->default(0);
+            $table->string('name', 192)->index();
             $table->timestamps();
+            $table->datetime('deleted_at')->nullable(true);
         });
     }
 
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('root_dirs');
+        Schema::dropIfExists('nodes');
     }
 };
