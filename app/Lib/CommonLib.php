@@ -8,7 +8,7 @@ use App\Models\Domain;
 use App\Models\Hostname;
 use App\Models\RootDir;
 
-class CommonLibException extends Exception {
+class CommonLibException extends \Exception {
     public function __construct($explain) {
         parent.__consturct($explain);
     }
@@ -40,6 +40,13 @@ class CommonLib {
         return storage_path($j);
     }
 
+    public function datef (string $fmt = null) {
+        if (is_null($fmt)) {
+            $fmt = 'Ymd';
+        }
+        return date($fmt);
+    }
+
     public function cache_path(string $fname) {
         $y = substr($fname, 0, 4);
         $m = substr($fname, 4, 2);
@@ -50,14 +57,7 @@ class CommonLib {
         return $j;
     }
 
-    public function datef(?string $fmt = null) [
-        if (is_null($fmt)) {
-            $fmt = 'Ymd';
-        }
-        return date($fmt);
-    }
-
-    public function randomName(?int $len = null) {
+    public function randomName(int $len = null) {
         if (is_null($len)) {
             $len = 12;
         }
@@ -100,8 +100,8 @@ class CommonLib {
                continue;
            }
            $sql = Node::where('root_dir_id', $root_dir->id)
-               ->where('name', $fname);
-               ->whereNull('deleted_at')
+               ->where('name', $fname)
+               ->whereNull('deleted_at');
            if (!is_null($parent)) {
                $sql = $sql->where('parent_id', $parent->id);
            } else {
@@ -168,7 +168,7 @@ class CommonLib {
                 if (mb_substr($rem, 0, 1) === "/") {
                     $rem = mb_substr($rem, 1);
                 }
-                return [$rd, mb_substr($path, strlen($rd->name)];
+                return [$rd, mb_substr($path, strlen($rd->name))];
             }
         }
         return [null, null];
